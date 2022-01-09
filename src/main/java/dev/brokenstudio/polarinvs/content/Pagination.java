@@ -165,4 +165,7 @@ public class Pagination {
         return this.itemsPerPage;
     }
 
+    public int getCurrentPage() {
+        return currentPage;
+    }
 }

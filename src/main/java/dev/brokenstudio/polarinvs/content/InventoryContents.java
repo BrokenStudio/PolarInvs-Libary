@@ -2,7 +2,9 @@ package dev.brokenstudio.polarinvs.content;
 
 import dev.brokenstudio.polarinvs.ClickableItem;
 import dev.brokenstudio.polarinvs.PolarInventory;
+import dev.brokenstudio.polarinvs.opener.InventoryOpener;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
@@ -99,7 +101,7 @@ public class InventoryContents {
         return this;
     }
 
-    
+
     public InventoryContents fillBorder(ClickableItem clickableItem){
         fillRow(1, clickableItem);
         fillColumn(1, clickableItem);
@@ -107,9 +109,56 @@ public class InventoryContents {
         fillColumn(this.inv.getColumns(), clickableItem)           ;
         return this;
     }
-    
+
     public InventoryContents fillBorder(ItemStack itemStack){
         return fillBorder(new ClickableItem(itemStack));
+    }
+
+    public void nextPage(){
+        if(this.pagination.isLast()){
+            return;
+        }
+        this.pagination.next();
+        Inventory handle = player.getOpenInventory().getTopInventory();
+        handle.clear();
+        ClickableItem[] items = this.all();
+        for(int i = 0; i < items.length; i++){
+            if(items[i] == null)
+                continue;
+            handle.setItem(i, items[i].getItemStack());
+        }
+        player.updateInventory();
+    }
+
+    public void previousPage(){
+        if(this.pagination.isFirst()){
+            return;
+        }
+        this.pagination.previous();
+        Inventory handle = player.getOpenInventory().getTopInventory();
+        handle.clear();
+        ClickableItem[] items = this.all();
+        for(int i = 0; i < items.length; i++){
+            if(items[i] == null)
+                continue;
+            handle.setItem(i, items[i].getItemStack());
+        }
+        player.updateInventory();
+    }
+
+    public void page(int page){
+        if(this.pagination.getCurrentPage() == page)
+            return;
+        this.pagination.page(page);
+        Inventory handle = player.getOpenInventory().getTopInventory();
+        handle.clear();
+        ClickableItem[] items = this.all();
+        for(int i = 0; i < items.length; i++){
+            if(items[i] == null)
+                continue;
+            handle.setItem(i, items[i].getItemStack());
+        }
+        player.updateInventory();
     }
 
 
