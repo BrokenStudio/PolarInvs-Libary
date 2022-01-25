@@ -214,14 +214,8 @@ public class InventoryManager {
             if (inv.isCloseable()) {
                 e.getInventory().clear();
 
-                if(inv.getParent().isPresent()){
-                    inv.getParent().get().open(p);
-                }else{
-                    inventories.remove(p);
-                    contents.remove(p);
-                }
-
-
+                inventories.remove(p);
+                contents.remove(p);
             } else
                 Bukkit.getScheduler().runTask(plugin, () -> p.openInventory(e.getInventory()));
         }
