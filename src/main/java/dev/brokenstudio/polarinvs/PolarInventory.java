@@ -82,9 +82,6 @@ public class PolarInventory {
         this.inventoryManager.setInventory(player, null);
         player.closeInventory();
         this.inventoryManager.setContents(player, null);
-        if(parent != null){
-            this.parent.open(player);
-        }
     }
 
     public int getRows() {
